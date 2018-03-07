@@ -9,8 +9,8 @@ Introduction
     :target: https://discord.gg/nBQh6qu
     :alt: Discord
 
-.. image:: https://travis-ci.org/adafruit/adafruit_CircuitPython_am2320.svg?branch=master
-    :target: https://travis-ci.org/adafruit/adafruit_CircuitPython_am2320
+.. image:: https://travis-ci.org/adafruit/Adafruit_CircuitPython_AM2320.svg?branch=master
+    :target: https://travis-ci.org/adafruit/Adafruit_CircuitPython_AM2320
     :alt: Build Status
 
 This is a CircuitPython driver for the AM2320 temperature and humidity sensor.
