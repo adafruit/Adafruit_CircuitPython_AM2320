@@ -28,7 +28,7 @@ This is easily achieved by downloading
 Usage Example
 =============
 
-See `am2320_simpletest.py` in the examples folder.
+See ``am2320_simpletest.py`` in the examples folder.
 
 Contributing
 ============
