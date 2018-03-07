@@ -13,7 +13,7 @@ Introduction
     :target: https://travis-ci.org/adafruit/adafruit_CircuitPython_am2320
     :alt: Build Status
 
-.. todo:: Describe what the library does.
+This is a CircuitPython driver for the AM2320 temperature and humidity sensor.
 
 Dependencies
 =============
@@ -28,7 +28,7 @@ This is easily achieved by downloading
 Usage Example
 =============
 
-.. todo:: Add a quick, simple example. It and other examples should live in the examples folder and be included in docs/examples.rst.
+See `am2320_simpletest.py` in the examples folder.
 
 Contributing
 ============

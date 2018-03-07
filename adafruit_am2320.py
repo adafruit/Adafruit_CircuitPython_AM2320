@@ -33,7 +33,7 @@ Implementation Notes
 **Hardware:**
 
 * Adafruit `AM2320 Temperature & Humidity Sensor
-  <https://www.adafruit.com/product/XXXX>`_ (Product ID: XXXX)
+  <https://www.adafruit.com/product/3721>`_ (Product ID: 3721)
 
 **Software and Dependencies:**
 
