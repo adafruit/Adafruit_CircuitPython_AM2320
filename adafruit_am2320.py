@@ -77,12 +77,11 @@ def _crc16(data):
 
 
 class AM2320:
-    """
-    A driver for the AM2320 temperature and humidity sensor.
+    """A driver for the AM2320 temperature and humidity sensor.
 
     :param i2c_bus: The `busio.I2C` object to use. This is the only required parameter.
     :param int address: (optional) The I2C address of the device.
-    
+
     """
     def __init__(self, i2c_bus, address=AM2320_DEFAULT_ADDR):
         self._i2c = I2CDevice(i2c_bus, address)
@@ -110,7 +109,6 @@ class AM2320:
             if crc1 != crc2:
                 raise RuntimeError('CRC failure 0x%04X vs 0x%04X' % (crc1, crc2))
             return result[2:-2]
-
 
     @property
     def temperature(self):
