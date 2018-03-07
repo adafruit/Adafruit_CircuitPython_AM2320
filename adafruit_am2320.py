@@ -26,6 +26,7 @@
 This is a CircuitPython driver for the AM2320 temperature and humidity sensor.
 
 * Author(s): Limor Fried
+
 Implementation Notes
 --------------------
 
@@ -37,7 +38,7 @@ Implementation Notes
 **Software and Dependencies:**
 
 * Adafruit CircuitPython firmware for the ESP8622 and M0-based boards:
-  https://github.com/adafruit/circuitpython/releases
+    https://github.com/adafruit/circuitpython/releases
 * Adafruit's Bus Device library: https://github.com/adafruit/Adafruit_CircuitPython_BusDevice
 
 """
