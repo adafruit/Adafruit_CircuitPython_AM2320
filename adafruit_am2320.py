@@ -39,6 +39,7 @@ Implementation Notes
 * Adafruit CircuitPython firmware for the ESP8622 and M0-based boards:
   https://github.com/adafruit/circuitpython/releases
 * Adafruit's Bus Device library: https://github.com/adafruit/Adafruit_CircuitPython_BusDevice
+
 """
 
 # imports
@@ -81,6 +82,7 @@ class AM2320:
 
     :param i2c_bus: The `busio.I2C` object to use. This is the only required parameter.
     :param int address: (optional) The I2C address of the device.
+    
     """
     def __init__(self, i2c_bus, address=AM2320_DEFAULT_ADDR):
         self._i2c = I2CDevice(i2c_bus, address)
