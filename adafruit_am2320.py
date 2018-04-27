@@ -115,6 +115,8 @@ class AM2320:
     def temperature(self):
         """The measured temperature in celsius."""
         temperature = struct.unpack(">H", self._read_register(AM2320_REG_TEMP_H, 2))[0]
+        if temperature >= 32768:
+            temperature = 32768 - temperature
         return temperature/10.0
 
     @property
