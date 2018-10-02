@@ -90,7 +90,10 @@ class AM2320:
     def _read_register(self, register, length):
         with self._i2c as i2c:
             # wake up sensor
-            i2c.write(bytes([0x00]))
+            try:
+                i2c.write(bytes([0x00]))
+            except OSError:
+                pass
             time.sleep(0.01)  # wait 10 ms
 
             # Send command to read register
@@ -103,7 +106,7 @@ class AM2320:
             # print("$%02X => %s" % (register, [hex(i) for i in result]))
             # Check preamble indicates correct readings
             if result[0] != 0x3 or result[1] != length:
-                raise RuntimeError('I2C modbus read failure')
+                raise RuntimeError('I2C read failure')
             # Check CRC on all but last 2 bytes
             crc1 = struct.unpack("<H", bytes(result[-2:]))[0]
             crc2 = _crc16(result[0:-2])
