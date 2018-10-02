@@ -85,7 +85,15 @@ class AM2320:
 
     """
     def __init__(self, i2c_bus, address=AM2320_DEFAULT_ADDR):
-        self._i2c = I2CDevice(i2c_bus, address)
+        for _ in range(3):
+            # retry since we have to wake up the devices
+            try:
+                self._i2c = I2CDevice(i2c_bus, address)
+                return
+            except ValueError:
+                pass
+            time.sleep(0.25)
+        raise ValueError("AM2320 not found")
 
     def _read_register(self, register, length):
         with self._i2c as i2c:
