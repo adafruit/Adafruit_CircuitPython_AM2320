@@ -77,6 +77,24 @@ def _crc16(data):
     return crc
 
 
+class AM2320Exception(Exception):
+    """Base class for exceptions."""
+    pass
+
+
+class AM2320DeviceNotFound(AM2320Exception, ValueError):
+    """Indicates that a device couldn't be found."""
+    pass
+
+
+class AM2320ReadError(AM2320Exception, RuntimeError):
+    """indicates that valid data could not be read from the sensor.
+
+    This may be due to a regular I2C read failure, or due to a checksum
+    mismatch."""
+    pass
+
+
 class AM2320:
     """A driver for the AM2320 temperature and humidity sensor.
 
@@ -93,7 +111,7 @@ class AM2320:
             except ValueError:
                 pass
             time.sleep(0.25)
-        raise ValueError("AM2320 not found")
+        raise AM2320DeviceNotFound('AM2320 not found')
 
     def _read_register(self, register, length):
         with self._i2c as i2c:
@@ -114,12 +132,12 @@ class AM2320:
             # print("$%02X => %s" % (register, [hex(i) for i in result]))
             # Check preamble indicates correct readings
             if result[0] != 0x3 or result[1] != length:
-                raise RuntimeError('I2C read failure')
+                raise AM2320ReadError('I2C read failure')
             # Check CRC on all but last 2 bytes
             crc1 = struct.unpack("<H", bytes(result[-2:]))[0]
             crc2 = _crc16(result[0:-2])
             if crc1 != crc2:
-                raise RuntimeError('CRC failure 0x%04X vs 0x%04X' % (crc1, crc2))
+                raise AM2320ReadError('CRC failure 0x%04X vs 0x%04X' % (crc1, crc2))
             return result[2:-2]
 
     @property
