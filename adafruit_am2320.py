@@ -65,7 +65,7 @@ AM2320_REG_HUM_H = const(0x00)
 
 
 def _crc16(data):
-    crc = 0xffff
+    crc = 0xFFFF
     for byte in data:
         crc ^= byte
         for _ in range(8):
@@ -79,12 +79,10 @@ def _crc16(data):
 
 class AM2320Exception(Exception):
     """Base class for exceptions."""
-    pass
 
 
 class AM2320DeviceNotFound(AM2320Exception, ValueError):
     """Indicates that a device couldn't be found."""
-    pass
 
 
 class AM2320ReadError(AM2320Exception, RuntimeError):
@@ -92,7 +90,6 @@ class AM2320ReadError(AM2320Exception, RuntimeError):
 
     This may be due to a regular I2C read failure, or due to a checksum
     mismatch."""
-    pass
 
 
 class AM2320:
@@ -102,6 +99,7 @@ class AM2320:
     :param int address: (optional) The I2C address of the device.
 
     """
+
     def __init__(self, i2c_bus, address=AM2320_DEFAULT_ADDR):
         for _ in range(3):
             # retry since we have to wake up the devices
@@ -111,7 +109,7 @@ class AM2320:
             except ValueError:
                 pass
             time.sleep(0.25)
-        raise AM2320DeviceNotFound('AM2320 not found')
+        raise AM2320DeviceNotFound("AM2320 not found")
 
     def _read_register(self, register, length):
         with self._i2c as i2c:
@@ -127,17 +125,17 @@ class AM2320:
             # print("cmd: %s" % [hex(i) for i in cmd])
             i2c.write(bytes(cmd))
             time.sleep(0.002)  # wait 2 ms for reply
-            result = bytearray(length+4) # 2 bytes pre, 2 bytes crc
+            result = bytearray(length + 4)  # 2 bytes pre, 2 bytes crc
             i2c.readinto(result)
             # print("$%02X => %s" % (register, [hex(i) for i in result]))
             # Check preamble indicates correct readings
             if result[0] != 0x3 or result[1] != length:
-                raise AM2320ReadError('I2C read failure')
+                raise AM2320ReadError("I2C read failure")
             # Check CRC on all but last 2 bytes
             crc1 = struct.unpack("<H", bytes(result[-2:]))[0]
             crc2 = _crc16(result[0:-2])
             if crc1 != crc2:
-                raise AM2320ReadError('CRC failure 0x%04X vs 0x%04X' % (crc1, crc2))
+                raise AM2320ReadError("CRC failure 0x%04X vs 0x%04X" % (crc1, crc2))
             return result[2:-2]
 
     @property
@@ -146,10 +144,10 @@ class AM2320:
         temperature = struct.unpack(">H", self._read_register(AM2320_REG_TEMP_H, 2))[0]
         if temperature >= 32768:
             temperature = 32768 - temperature
-        return temperature/10.0
+        return temperature / 10.0
 
     @property
     def relative_humidity(self):
         """The measured relative humidity in percent."""
         humidity = struct.unpack(">H", self._read_register(AM2320_REG_HUM_H, 2))[0]
-        return humidity/10.0
+        return humidity / 10.0
