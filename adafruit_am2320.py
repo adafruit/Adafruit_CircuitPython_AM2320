@@ -20,8 +20,8 @@ Implementation Notes
 
 **Software and Dependencies:**
 
-* Adafruit CircuitPython firmware for the ESP8622 and M0-based boards:
-    https://github.com/adafruit/circuitpython/releases
+* Adafruit CircuitPython firmware for the supported boards:
+  https://github.com/adafruit/circuitpython/releases
 * Adafruit's Bus Device library: https://github.com/adafruit/Adafruit_CircuitPython_BusDevice
 
 """
@@ -63,8 +63,34 @@ def _crc16(data):
 class AM2320:
     """A driver for the AM2320 temperature and humidity sensor.
 
-    :param i2c_bus: The `busio.I2C` object to use. This is the only required parameter.
-    :param int address: (optional) The I2C address of the device.
+    :param ~busio.I2C i2c_bus: The I2C bus the AM2320 is connected to.
+                               This is the only required parameter.
+    :param int address: (optional) The I2C address of the device. Defaults to :const:`0x5C`
+
+    **Quickstart: Importing and using the AM2320**
+
+        Here is an example of using the :class:`AM2320` class.
+        First you will need to import the libraries to use the sensor
+
+        .. code-block:: python
+
+            import board
+            import adafruit_am2320
+
+        Once this is done you can define your `board.I2C` object and define your sensor object
+
+        .. code-block:: python
+
+            i2c = board.I2C()   # uses board.SCL and board.SDA
+            am = adafruit_am2320.AM2320(i2c)
+
+        Now you have access to the temperature using :attr:`temperature` attribute and
+        the relative humidity using the :attr:`relative_humidity` attribute
+
+        .. code-block:: python
+
+            temperature = am.temperature
+            relative_humidity = am.relative_humidity
 
     """
 
@@ -108,7 +134,7 @@ class AM2320:
 
     @property
     def temperature(self):
-        """The measured temperature in celsius."""
+        """The measured temperature in Celsius."""
         temperature = struct.unpack(">H", self._read_register(AM2320_REG_TEMP_H, 2))[0]
         if temperature >= 32768:
             temperature = 32768 - temperature

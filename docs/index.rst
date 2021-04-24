@@ -23,10 +23,12 @@ Table of Contents
 .. toctree::
     :caption: Tutorials
 
+    Adafruit AM2320 Temperature and Humidity Sensor Learning Guide <https://learn.adafruit.com/adafruit-am2320-temperature-humidity-i2c-sensor/python-circuitpython>
 
 .. toctree::
     :caption: Related Products
 
+    Adafruit AM2320 Temperature and Humidity Sensor <https://www.adafruit.com/product/3721>
 
 .. toctree::
     :caption: Other Links
