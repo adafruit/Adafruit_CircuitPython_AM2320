@@ -3,11 +3,10 @@
 
 import time
 import board
-import busio
 import adafruit_am2320
 
 # create the I2C shared bus
-i2c = busio.I2C(board.SCL, board.SDA)
+i2c = board.I2C()  # uses board.SCL and board.SDA
 am = adafruit_am2320.AM2320(i2c)
 
 while True:
