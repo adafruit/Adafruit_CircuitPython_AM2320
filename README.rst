@@ -55,6 +55,11 @@ Usage Example
 
 See ``am2320_simpletest.py`` in the examples folder.
 
+Documentation
+=============
+
+API documentation for this library can be found on `Read the Docs <https://circuitpython.readthedocs.io/projects/am2320/en/latest/>`_.
+
 Contributing
 ============
 
