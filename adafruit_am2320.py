@@ -36,6 +36,7 @@ import time
 
 from adafruit_bus_device.i2c_device import I2CDevice
 from micropython import const
+from busio import I2C
 
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_am2320.git"
@@ -47,7 +48,7 @@ AM2320_REG_TEMP_H = const(0x02)
 AM2320_REG_HUM_H = const(0x00)
 
 
-def _crc16(data):
+def _crc16(data: bytearray) -> int:
     crc = 0xFFFF
     for byte in data:
         crc ^= byte
@@ -94,7 +95,7 @@ class AM2320:
 
     """
 
-    def __init__(self, i2c_bus, address=AM2320_DEFAULT_ADDR):
+    def __init__(self, i2c_bus: I2C, address: int = AM2320_DEFAULT_ADDR):
         for _ in range(3):
             # retry since we have to wake up the devices
             try:
@@ -105,7 +106,7 @@ class AM2320:
             time.sleep(0.25)
         raise ValueError("AM2320 not found")
 
-    def _read_register(self, register, length):
+    def _read_register(self, register: int, length: int) -> bytearray:
         with self._i2c as i2c:
             # wake up sensor
             try:
@@ -133,7 +134,7 @@ class AM2320:
             return result[2:-2]
 
     @property
-    def temperature(self):
+    def temperature(self) -> float:
         """The measured temperature in Celsius."""
         temperature = struct.unpack(">H", self._read_register(AM2320_REG_TEMP_H, 2))[0]
         if temperature >= 32768:
@@ -141,7 +142,7 @@ class AM2320:
         return temperature / 10.0
 
     @property
-    def relative_humidity(self):
+    def relative_humidity(self) -> float:
         """The measured relative humidity in percent."""
         humidity = struct.unpack(">H", self._read_register(AM2320_REG_HUM_H, 2))[0]
         return humidity / 10.0
