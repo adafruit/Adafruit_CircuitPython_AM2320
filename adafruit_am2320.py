@@ -36,7 +36,13 @@ import time
 
 from adafruit_bus_device.i2c_device import I2CDevice
 from micropython import const
-from busio import I2C
+
+try:
+    # Used only for typing
+    import typing  # pylint: disable=unused-import
+    from busio import I2C
+except ImportError:
+    pass
 
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_am2320.git"
