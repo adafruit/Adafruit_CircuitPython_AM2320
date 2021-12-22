@@ -27,11 +27,7 @@ Implementation Notes
 """
 
 # imports
-try:
-    import struct
-except ImportError:
-    import ustruct as struct
-
+import struct
 import time
 
 from adafruit_bus_device.i2c_device import I2CDevice
