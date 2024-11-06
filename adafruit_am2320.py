@@ -115,7 +115,7 @@ class AM2320:
                 i2c.write(bytes([0x00]))
             except OSError:
                 pass
-            time.sleep(0.01)  # wait 10 ms
+            time.sleep(0.1)  # wait 100 ms
 
             # Send command to read register
             cmd = [AM2320_CMD_READREG, register & 0xFF, length]
