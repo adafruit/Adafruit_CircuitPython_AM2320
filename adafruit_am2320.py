@@ -110,17 +110,36 @@ class AM2320:
 
     def _read_register(self, register: int, length: int) -> bytearray:
         with self._i2c as i2c:
+            write_success = False
             # wake up sensor
-            try:
-                i2c.write(bytes([0x00]))
-            except OSError:
-                pass
+            for _ in range(3):
+                try:
+                    i2c.write(bytes([0x00]))
+                    write_success = True
+                    time.sleep(0.1)  # wait 100ms
+                    break
+                except OSError:
+                    pass
+            if not write_success:
+                raise RuntimeError("Failed to wakeup I2C device")
+
             time.sleep(0.01)  # wait 10 ms
 
             # Send command to read register
             cmd = [AM2320_CMD_READREG, register & 0xFF, length]
             # print("cmd: %s" % [hex(i) for i in cmd])
-            i2c.write(bytes(cmd))
+            write_success = False
+            for _ in range(3):
+                try:
+                    i2c.write(bytes(cmd))
+                    write_success = True
+                    time.sleep(0.005)
+                    break
+                except OSError:
+                    pass
+            if not write_success:
+                raise RuntimeError("Failed to read from I2C device")
+
             time.sleep(0.002)  # wait 2 ms for reply
             result = bytearray(length + 4)  # 2 bytes pre, 2 bytes crc
             i2c.readinto(result)
