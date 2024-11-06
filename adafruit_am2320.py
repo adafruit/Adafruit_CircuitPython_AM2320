@@ -119,7 +119,7 @@ class AM2320:
                     time.sleep(0.1)  # wait 100ms
                     break
                 except OSError:
-                    write_success = False
+                    pass
             if not write_success:
                 raise RuntimeError("Failed to wakeup I2C device")
 
@@ -136,7 +136,7 @@ class AM2320:
                     time.sleep(0.005)
                     break
                 except OSError:
-                    write_success = False
+                    pass
             if not write_success:
                 raise RuntimeError("Failed to read from I2C device")
 
