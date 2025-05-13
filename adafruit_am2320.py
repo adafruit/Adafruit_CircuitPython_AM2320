@@ -35,7 +35,8 @@ from micropython import const
 
 try:
     # Used only for typing
-    import typing  # pylint: disable=unused-import
+    import typing
+
     from busio import I2C
 except ImportError:
     pass
@@ -151,7 +152,7 @@ class AM2320:
             crc1 = struct.unpack("<H", bytes(result[-2:]))[0]
             crc2 = _crc16(result[0:-2])
             if crc1 != crc2:
-                raise RuntimeError("CRC failure 0x%04X vs 0x%04X" % (crc1, crc2))
+                raise RuntimeError(f"CRC failure 0x{crc1:04X} vs 0x{crc2:04X}")
             return result[2:-2]
 
     @property
